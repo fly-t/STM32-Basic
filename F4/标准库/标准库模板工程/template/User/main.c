@@ -1,34 +1,27 @@
 #include "sys.h"
 #include "delay.h"
-#include "usart.h"
+#include "uart4.h"
 
 #include "led.h"
 
 
-
-//ALIENTEK 探索者STM32F407开发板 实验1
-//跑马灯实验 -库函数版本
-//技术支持：www.openedv.com
-//淘宝店铺：http://eboard.taobao.com  
-//广州市星翼电子科技有限公司  
-//作者：正点原子 @ALIENTEK
-
 int main(void)
 { 
-	UART4_Init();
-	delay_init(180);		  //初始化延时函数
-	LED_Init();		        //初始化LED端口
+	
+	delay_init(180);		  		//初始化延时函数
+	Bsp_Led_Run_Init();		        //初始化LED端口
+	Bsp_UART4_Init();
+	
 	
   /**下面是通过直接操作库函数的方式实现IO控制**/	
 	while(1)
 	{
-	// 发送字符串
-    UART4_SendString("Hello, UART4!\n");
-	delay_ms(1000);  		   //延时300ms
-//	GPIO_ResetBits(GPIOF,GPIO_Pin_12);  //LED0对应引脚GPIOF.9拉低，亮  等同LED0=0;	
-//	delay_ms(1000);  		   //延时300ms
-//	GPIO_SetBits(GPIOF,GPIO_Pin_12);	   //LED0对应引脚GPIOF.0拉高，灭  等同LED0=1;
-//	delay_ms(1000);                     //延时300ms
+	GPIO_ResetBits(GPIOF,GPIO_Pin_12);  //LED0对应引脚GPIOF.9拉低，亮  等同LED0=0;
+	delay_ms(50);  		   //延时300ms
+	GPIO_SetBits(GPIOF,GPIO_Pin_12);   //LED1对应引脚GPIOF.10拉高，灭 等同LED1=1;
+	delay_ms(50);  		   //延时300ms
+		
+
 	}
 }
 
