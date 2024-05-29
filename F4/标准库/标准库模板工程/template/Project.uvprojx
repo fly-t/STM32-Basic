@@ -335,9 +335,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,STM32F427_437xx,HSE_VALUE =8000000</Define>
+              <Define>USE_STDPERIPH_DRIVER,STM32F427_437xx,HSE_VALUE =8000000,Crystal_8M</Define>
               <Undefine></Undefine>
-              <IncludePath>.\User;.\Startup;.\Startup\Core;.\Libraries\inc;.\Libraries\src;.\System\delay;.\System\sys;.\Bsp\led;.\Bsp\uart4</IncludePath>
+              <IncludePath>.\User;.\Startup;.\Startup\Core;.\Libraries\inc;.\Libraries\src;.\System\delay;.\System\sys;.\Bsp\led;.\Bsp\usart1;.\Bsp\uart4;.\Bsp\uart5;.\Bsp\uart8;.\Bsp\usart3;.\Bsp\usart6;.\Bsp\usart2</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -837,14 +837,44 @@
           <GroupName>Bsp</GroupName>
           <Files>
             <File>
-              <FileName>led.c</FileName>
+              <FileName>bsp_led.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Bsp\led\led.c</FilePath>
+              <FilePath>.\Bsp\led\bsp_led.c</FilePath>
             </File>
             <File>
-              <FileName>uart4.c</FileName>
+              <FileName>bsp_uart4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Bsp\uart4\uart4.c</FilePath>
+              <FilePath>.\Bsp\uart4\bsp_uart4.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\usart1\bsp_usart1.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_uart5.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\uart5\bsp_uart5.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_uart8.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\uart8\bsp_uart8.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\usart3\bsp_usart3.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart6.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\usart6\bsp_usart6.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Bsp\usart2\bsp_usart2.c</FilePath>
             </File>
           </Files>
         </Group>

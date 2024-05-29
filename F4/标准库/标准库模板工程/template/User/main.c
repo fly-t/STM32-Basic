@@ -1,70 +1,53 @@
 #include "sys.h"
 #include "delay.h"
-#include "uart4.h"
 
-#include "led.h"
-
+#include "bsp_usart1.h"
+#include "bsp_usart2.h"
+#include "bsp_usart3.h"
+#include "bsp_uart4.h"
+#include "bsp_uart5.h"
+#include "bsp_usart6.h"
+#include "bsp_uart8.h"
+#include "bsp_led.h"
 
 int main(void)
-{ 
-	
-	delay_init(180);		  		//初始化延时函数
-	Bsp_Led_Run_Init();		        //初始化LED端口
-	Bsp_UART4_Init();
-	
-	
-  /**下面是通过直接操作库函数的方式实现IO控制**/	
-	while(1)
-	{
-	GPIO_ResetBits(GPIOF,GPIO_Pin_12);  //LED0对应引脚GPIOF.9拉低，亮  等同LED0=0;
-	delay_ms(50);  		   //延时300ms
-	GPIO_SetBits(GPIOF,GPIO_Pin_12);   //LED1对应引脚GPIOF.10拉高，灭 等同LED1=1;
-	delay_ms(50);  		   //延时300ms
-		
-
-	}
+{
+    delay_init(180);    // 初始化延时函数
+    Bsp_Switch_Init();  // 初始化LED端口
+    Bsp_USART1_Init();
+    Bsp_USART2_Init();
+    Bsp_USART3_Init();
+    Bsp_UART4_Init();
+    Bsp_UART5_Init();
+    Bsp_USART6_Init();
+    Bsp_UART8_Init();
+    /**下面是通过直接操作库函数的方式实现IO控制**/
+    while (1)
+    {
+        U1_printf("u1 send....\n");
+        U2_printf("u2 send....\n");
+        U3_printf("u3 send....\n");
+        u4_printf("u4 send....\n");
+        U5_printf("u5 send....\n");
+        U6_printf("u6 send....\n");
+        U8_printf("u8 send....\n");
+        LED_Run = ON;                       
+        Seat1_Display = ON;                 
+        Seat2_Display = ON;                 
+        Luggage_Signa = ON;                 
+        Sound_Signal = ON;                  
+        Other = ON;                         
+        LED1 = ON;                        
+        LED2 = ON;                        
+        delay_ms(100);                     
+        LED_Run = OFF;                      
+        Luggage_Signa = OFF;                
+        Sound_Signal = OFF;                 
+        Seat1_Display = OFF;                
+        Seat2_Display = OFF;                
+        Other = OFF;                        
+        LED1 = OFF;                         
+        LED2 = OFF;                         
+        delay_ms(100);                     
+    }
 }
-
-
-/**
-*******************下面注释掉的代码是通过 位带 操作实现IO口控制**************************************
-	
-int main(void)
-{ 
- 
-	delay_init(168);		  //初始化延时函数
-	LED_Init();		        //初始化LED端口
-  while(1)
-	{
-     LED0=0;			  //LED0亮
-	   LED1=1;				//LED1灭
-		 delay_ms(500);
-		 LED0=1;				//LED0灭
-		 LED1=0;				//LED1亮
-		 delay_ms(500);
-	 }
-}
-**************************************************************************************************
- **/	
-	
-/**
-*******************下面注释掉的代码是通过 直接操作寄存器 方式实现IO口控制**************************************
-int main(void)
-{ 
- 
-	delay_init(168);		  //初始化延时函数
-	LED_Init();		        //初始化LED端口
-	while(1)
-	{
-     GPIOF->BSRRH=GPIO_Pin_9;//LED0亮
-	   GPIOF->BSRRL=GPIO_Pin_10;//LED1灭
-		 delay_ms(500);
-     GPIOF->BSRRL=GPIO_Pin_9;//LED0灭
-	   GPIOF->BSRRH=GPIO_Pin_10;//LED1亮
-		 delay_ms(500);
-
-	 }
- }	 
-**************************************************************************************************
-**/	
- 

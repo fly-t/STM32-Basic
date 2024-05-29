@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "*.qmd": "markdown",
+        "stdarg.h": "c",
+        "stdio.h": "c",
+        "bsp_uart4.h": "c",
+        "sys.h": "c",
+        "stm32f4xx.h": "c",
+        "bsp_usart1.h": "c",
+        "delay.h": "c",
+        "bsp_led.h": "c",
+        "bsp_uart5.h": "c",
+        "bsp_usart3.h": "c",
+        "bsp_usart6.h": "c"
+    }
+}
