@@ -18,13 +18,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-#include <stm32l4xx_hal_rcc.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "soft_tim.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,19 +89,20 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
+  MX_TIM16_Init();
   /* USER CODE BEGIN 2 */
+  test();
+      /* USER CODE END 2 */
 
-  /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
+      /* Infinite loop */
+      /* USER CODE BEGIN WHILE */
+      while (1)
   {
-    HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
-    HAL_Delay(100);
-    /* USER CODE END WHILE */
+      HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);
+      HAL_Delay(1000);
+      /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
+      /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
