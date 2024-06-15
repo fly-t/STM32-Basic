@@ -45,3 +45,19 @@
 | 定时器 | timer16           | 1ms中断(软件定时器用) |
 | Uart2  | PA2(Tx),PA3(Rx)   | 9600                  |
 | Uart3  | PC10(Tx),PC11(Rx) | 9600                  |
+
+# 软件定时器
+
+软件定时器数量默认5
+
+开放接口
+ 
+``` c
+void software_timer_start(TIM_HandleTypeDef *htimx);
+soft_timer_t software_timer_create(char *name, uint32_t period_ms, TimerCallback callback);
+void software_timer_open(soft_timer_t timerx);
+void software_timer_close(soft_timer_t timerx);
+
+// 演示示例
+void soft_timer_demo(void);
+```
