@@ -35,7 +35,7 @@ typedef struct soft_timer *soft_timer_t;
 /* null pointer definition(ST:Soft Timer) */
 #define ST_NULL 0
 
-void software_timer_start(TIM_HandleTypeDef *htimx);
+void software_timer_init(TIM_HandleTypeDef *htimx);
 soft_timer_t software_timer_create(char *name, uint32_t period_ms, TimerCallback callback);
 void software_timer_open(soft_timer_t timerx);
 void software_timer_close(soft_timer_t timerx);
