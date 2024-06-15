@@ -15,40 +15,44 @@
  */
 #include "soft_tim.h"
 #include "tim.h"
-#include "stm32L4xx.h"
-#include <stdbool.h>
 #include <string.h>
 
-#define MAX_TIMERS 5
+#define MAX_TIMERS 5 /// 默认定时器数量5
 
-typedef void (*TimerCallback)(void);
 
-typedef struct
-{
-    char name[8];
-    uint32_t period_ms;     ///  周期ms
-    uint32_t elapsed_ms;    ///  已用ms
-    TimerCallback callback;
-    bool active;
-} Soft_TIM_HandleTypeDef;
-
-Soft_TIM_HandleTypeDef timers[MAX_TIMERS];
+struct soft_timer timers[MAX_TIMERS];
 
 volatile uint32_t millis = 0;
 
-void software_tim16_init(void)
+/**
+ * @brief 打开硬件定时器中断,开始计时.
+ * @param  htimx            htim1, him2...(use CubeMx config timer)
+ * @return * void 
+ */
+void software_timer_start(TIM_HandleTypeDef *htimx)
 {
-    HAL_TIM_Base_Start_IT(&htim16);
+    HAL_TIM_Base_Start_IT(htimx);
 }
 
-void software_timer_init(void)
+/**
+ * @brief 打开定时器中断, 并初始化定时器数组
+ * @param  htimx            htimx
+ * @return * void
+ */
+void software_timer_init(TIM_HandleTypeDef *htimx)
 {
+    software_timer_start(htimx);
+
     for (int i = 0; i < MAX_TIMERS; i++)
     {
         timers[i].active = false;
     }
 }
 
+/**
+ * @brief update all timer have actived, and callback
+ * @return * void 
+ */
 void software_timer_update(void)
 {
     for (int i = 0; i < MAX_TIMERS; i++)
@@ -65,7 +69,14 @@ void software_timer_update(void)
     }
 }
 
-int software_timer_create(char *name, uint32_t period_ms, TimerCallback callback)
+/**
+ * @brief 创建新的定时器, 并绑定回调函数
+ * @param  name             定时器名称
+ * @param  period_ms        定时器触发周期
+ * @param  callback         周期触发回调函数
+ * @return * soft_timer_t            错误返回ST_NULL, 否则返回成功的定时器句柄
+ */
+soft_timer_t software_timer_create(char *name, uint32_t period_ms, TimerCallback callback)
 {
     for (int i = 0; i < MAX_TIMERS; i++)
     {
@@ -76,26 +87,39 @@ int software_timer_create(char *name, uint32_t period_ms, TimerCallback callback
             timers[i].elapsed_ms = 0;
             timers[i].callback = callback;
             timers[i].active = true;
-            return i;
+            return &timers[i];
         }
     }
-    return -1;
+    return ST_NULL;
 }
 
-void delay_ms(uint32_t ms)
+
+/**
+ * @brief 关闭定时器
+ * @param  timerx           定时器句柄
+ * @return * void
+ */
+void software_timer_close(soft_timer_t timerx)
 {
-    uint32_t start = millis;
-    while ((millis - start) < ms)
-        ;
+    timerx->active = 0;
 }
 
-void task1(void)
+/**
+ * @brief 打开定时器
+ * @param  timerx           定时器句柄
+ * @return * void
+ */
+void software_timer_open(soft_timer_t timerx)
 {
-    HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);    
+    timerx->active = 1;
 }
 
-
-// 周期结束回调函数，在定时器更新事件中调用
+/**
+ * @brief stm32 定时器中断处理函数:周期结束回调函数，在定时器更新事件中调用
+ * @brief 这里移植需要修改
+ * @param  htim             
+ * @return * void
+ */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if (htim->Instance == TIM16)
@@ -104,13 +128,22 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         software_timer_update();
     }
 }
-int test(void)
+
+
+
+void task_demo(void)
 {
+    HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
+}
 
-    software_tim16_init();
-    software_timer_init();
+/**
+ * @brief 使用示例
+ * @return * void 
+ */
+void soft_timer_demo(void)
+{
+    /* 初始化定时器 */
+    software_timer_init(&htim16);
 
-    software_timer_create("Timer1", 100, task1);
-    //create_timer("Timer2", 1000, task2);
-
+    soft_timer_t timer1 = software_timer_create("Timer1", 500, task_demo);
 }

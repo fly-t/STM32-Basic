@@ -91,17 +91,15 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM16_Init();
   /* USER CODE BEGIN 2 */
-  test();
-      /* USER CODE END 2 */
+  soft_timer_demo();
+  /* USER CODE END 2 */
 
-      /* Infinite loop */
-      /* USER CODE BEGIN WHILE */
-      while (1)
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
   {
-      HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);
-      HAL_Delay(1000);
       /* USER CODE END WHILE */
-
+    
       /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
