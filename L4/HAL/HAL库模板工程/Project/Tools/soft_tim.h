@@ -39,7 +39,7 @@ void software_timer_init(TIM_HandleTypeDef *htimx);
 soft_timer_t software_timer_create(char *name, uint32_t period_ms, TimerCallback callback);
 void software_timer_open(soft_timer_t timerx);
 void software_timer_close(soft_timer_t timerx);
-
+void software_timer_update(void);
 void soft_timer_demo(void);
 
 #endif /* __SOFT_TIM_H__ */

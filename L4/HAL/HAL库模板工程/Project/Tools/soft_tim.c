@@ -145,5 +145,5 @@ void soft_timer_demo(void)
     /* 初始化定时器 */
     software_timer_init(&htim16);
 
-    soft_timer_t timer1 = software_timer_create("Timer1", 500, task_demo);
+    soft_timer_t timer1 = software_timer_create("Timer1", 200, task_demo);
 }

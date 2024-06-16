@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "soft_tim.h"
+#include "u2print.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -98,9 +99,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      /* USER CODE END WHILE */
-    
-      /* USER CODE BEGIN 3 */
+    /* 串口发送 */
+    uint8_t data[4] = {0x01, 0x02, 0x03, 0x04};
+    u2_send_n(data, 4);
+    HAL_Delay(10);
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
