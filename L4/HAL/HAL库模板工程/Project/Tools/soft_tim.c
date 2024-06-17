@@ -25,6 +25,15 @@ struct soft_timer timers[MAX_TIMERS];
 volatile uint32_t millis = 0;
 
 /**
+ * @brief Get the millis second
+ * @return * uint32_t ms of timer running
+ */
+uint64_t get_millis(void)
+{
+    return millis;
+}
+
+/**
  * @brief 打开硬件定时器中断,开始计时.
  * @param  htimx            htim1, him2...(use CubeMx config timer)
  * @return * void 

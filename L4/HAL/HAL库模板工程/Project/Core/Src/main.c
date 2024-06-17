@@ -101,8 +101,9 @@ int main(void)
   {
     /* 串口发送 */
     uint8_t data[4] = {0x01, 0x02, 0x03, 0x04};
-    u2_send_n(data, 4);
-    HAL_Delay(10);
+    // u2_send_n(data, 4);
+u2_printf("%d\n",get_millis());
+    HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
