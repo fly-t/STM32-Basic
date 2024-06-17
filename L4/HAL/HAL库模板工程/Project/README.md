@@ -50,9 +50,12 @@
 
 软件定时器数量默认5
 
-开放接口
- 
+开放接口,新增定时器开机时间戳 单位ms.
+
+时间戳类型uint64_t, 理论永久.
+
 ``` c
+uint64_t get_millis(void);
 void software_timer_init(TIM_HandleTypeDef *htimx);
 soft_timer_t software_timer_create(char *name, uint32_t period_ms, TimerCallback callback);
 void software_timer_open(soft_timer_t timerx);
@@ -61,3 +64,18 @@ void software_timer_close(soft_timer_t timerx);
 // 演示示例
 void soft_timer_demo(void);
 ```
+
+# 格式化输出
+
+移植
+
+`u2printf.c`
+
+``` c
+#define BUF_SIZE 128            /// 缓冲区大小
+#define SEND_MAX_DELAY 1000     /// 发送最大延时
+#define HUARTx huart2           /// 串口句柄, 移植直接修改即可 huart1,huart2,huart3...
+```
+
+# 
+
