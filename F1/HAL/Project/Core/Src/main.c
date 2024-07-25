@@ -90,7 +90,7 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-    sys_init(72);
+  sys_init(72);
       
    soft_timer_demo();
     

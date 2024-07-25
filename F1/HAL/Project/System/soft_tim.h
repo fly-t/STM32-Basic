@@ -35,35 +35,22 @@ struct soft_timer
 typedef struct soft_timer *soft_timer_t;
 
 
-/**
- * @brief 创建新的定时器, 并绑定回调函数
- * @param  soft_timer_t     定时器句柄
- * @param  name             定时器名称,最长8个字符
- * @param  period_ms        定时器触发周期
- * @param  callback         周期触发回调函数
- * @return * void
- */
-void software_timer_create(soft_timer_t timer, char *name, uint32_t period_ms, TimerCallback callback);
 
-/**
- * @brief 打开定时器, 将定时器添加到链表
- * @param  timerx           定时器指针
- * @return * void
- */
-void software_timer_open(soft_timer_t timerx);
+struct Softim
+{
+    uint8_t id_counter; /// 定时器ID计数
+    /* 定时器创建 */
+    void (*create)(soft_timer_t timer, char *name, uint32_t period_ms, TimerCallback callback);
+    /* 定时器打开 */
+    void (*open)(soft_timer_t timerx);  
+    /* 定时器关闭 */
+    void (*close)(soft_timer_t timerx);
+    /* 硬件定时器启动 */
+    void (*start_hd)(void);
+};
+typedef struct Softim *Softim_t;
+extern struct Softim soft_tim;
 
-/**
- * @brief 关闭定时器, 将定时器移除链表
- * @param  timerx           定时器指针
- * @return * void
- */
-void software_timer_close(soft_timer_t timerx);
-
-/**
- * @brief 每1ms进中断一次, 检查时间是否到达, 到达则调用回调函数,复位时间
- * @return * void
- */
-void software_timer_update(void);
 
 /**
  * @brief 测试用例

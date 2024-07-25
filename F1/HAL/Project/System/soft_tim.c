@@ -24,8 +24,19 @@
 // 软件定时器链表头
 static KLIST_HEAD(soft_tim_llist);
 
-// 定时器ID计数
-static uint8_t timer_id_counter = 0;
+void software_timer_start(void);
+void software_timer_create(soft_timer_t timer, char *name, uint32_t period_ms, TimerCallback callback);
+void software_timer_open(soft_timer_t timerx);
+void software_timer_close(soft_timer_t timerx);
+void software_timer_update(void);
+
+struct Softim soft_tim = {
+    .id_counter = 0,
+    .create = software_timer_create,
+    .close = software_timer_close,
+    .open = software_timer_open,
+    .start_hd = software_timer_start,
+};
 
 /**
  * @brief stm32 定时器中断处理函数:周期结束回调函数，在定时器更新事件中调用
@@ -50,6 +61,10 @@ void software_timer_start(void)
     HAL_TIM_Base_Start_IT(&USING_TIMERx);
 }
 
+/**
+ * @brief 每1ms进中断一次, 检查时间是否到达, 到达则调用回调函数,复位时间
+ * @return * void
+ */
 void software_timer_update(void)
 {
     soft_timer_t timer;
@@ -64,22 +79,40 @@ void software_timer_update(void)
     }
 }
 
+/**
+ * @brief 创建新的定时器, 并绑定回调函数
+ * @param  soft_timer_t     定时器句柄
+ * @param  name             定时器名称,最长8个字符
+ * @param  period_ms        定时器触发周期
+ * @param  callback         周期触发回调函数
+ * @return * void
+ */
 void software_timer_create(soft_timer_t timer, char *name, uint32_t period_ms, TimerCallback callback)
 {
     strncpy(timer->name, name, sizeof(timer->name));
     timer->period_ms = period_ms;
     timer->elapsed_ms = 0;
     timer->callback = callback;
-    timer->id = timer_id_counter++;
+    timer->id = soft_tim.id_counter++;
 
     LINK_INIT(&(timer->self));
 }
 
+/**
+ * @brief 关闭定时器, 将定时器移除链表
+ * @param  timerx           定时器指针
+ * @return * void
+ */
 void software_timer_close(soft_timer_t timer)
 {
     list_del(&timer->self);
 }
 
+/**
+ * @brief 打开定时器, 将定时器添加到链表
+ * @param  timerx           定时器指针
+ * @return * void
+ */
 void software_timer_open(soft_timer_t timer)
 {
     list_add_tail(&timer->self, &soft_tim_llist);
@@ -98,9 +131,9 @@ void task_demo2(void)
 void soft_timer_demo(void)
 {
     static struct soft_timer timer1, timer2;
-    software_timer_create(&timer1, "Timer1", 100, task_demo);
-    software_timer_create(&timer2, "Timer2", 1000, task_demo2);
-    software_timer_open(&timer1);
-    software_timer_open(&timer2);
-    software_timer_start();
+    soft_tim.create(&timer1, "Timer1", 100, task_demo);
+    soft_tim.create(&timer2, "Timer2", 1000, task_demo2);
+    soft_tim.open(&timer1);
+    soft_tim.open(&timer2);
+    soft_tim.start_hd();
 }
