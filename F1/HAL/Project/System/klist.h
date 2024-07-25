@@ -6,7 +6,7 @@
 
 typedef struct list_head {
     struct list_head *next, *prev;
-} list_t, list_head_t;
+} link_t, link_head_t;
 
 
 #define LIST_POISON1  (0)
@@ -28,6 +28,8 @@ typedef struct list_head {
 
 #define KLIST_HEAD(name) \
     struct list_head name = LIST_HEAD_INIT(name)
+    
+#define LINK_INIT(link) INIT_LIST_HEAD(link)
 
 static inline void INIT_LIST_HEAD(struct list_head *list)
 {
@@ -615,4 +617,4 @@ static inline void list_splice_tail_init(struct list_head *list,
 #define list_safe_reset_next(pos, n, member)                \
     n = list_next_entry(pos, member)
 
-#endif
+#endif // __LIST_H__

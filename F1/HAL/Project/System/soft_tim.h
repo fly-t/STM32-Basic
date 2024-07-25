@@ -16,30 +16,59 @@
 #ifndef __SOFT_TIM_H__
 #define __SOFT_TIM_H__
 
-#include "stm32F1xx.h"
 #include <stdbool.h>
+#include "stm32F1xx.h"
+#include "klist.h"
 
 typedef void (*TimerCallback)(void);
 
 struct soft_timer
 {
-    char name[8];
+    link_t self;            /// 链表
+    uint8_t id;             /// 定时器ID
+    char name[8];           /// 定时器名称
     uint32_t period_ms;     ///  周期ms
     uint32_t elapsed_ms;    ///  已用ms
     TimerCallback callback; /// 回调函数
-    bool active;            /// 定时器是否打开
 };
 
 typedef struct soft_timer *soft_timer_t;
 
-/* null pointer definition(ST:Soft Timer) */
-#define ST_NULL 0
 
-uint64_t get_millis(void);
-void software_timer_init(TIM_HandleTypeDef *htimx);
-soft_timer_t software_timer_create(char *name, uint32_t period_ms, TimerCallback callback);
+/**
+ * @brief 创建新的定时器, 并绑定回调函数
+ * @param  soft_timer_t     定时器句柄
+ * @param  name             定时器名称,最长8个字符
+ * @param  period_ms        定时器触发周期
+ * @param  callback         周期触发回调函数
+ * @return * void
+ */
+void software_timer_create(soft_timer_t timer, char *name, uint32_t period_ms, TimerCallback callback);
+
+/**
+ * @brief 打开定时器, 将定时器添加到链表
+ * @param  timerx           定时器指针
+ * @return * void
+ */
 void software_timer_open(soft_timer_t timerx);
+
+/**
+ * @brief 关闭定时器, 将定时器移除链表
+ * @param  timerx           定时器指针
+ * @return * void
+ */
 void software_timer_close(soft_timer_t timerx);
+
+/**
+ * @brief 每1ms进中断一次, 检查时间是否到达, 到达则调用回调函数,复位时间
+ * @return * void
+ */
+void software_timer_update(void);
+
+/**
+ * @brief 测试用例
+ * @return * void
+ */
 void soft_timer_demo(void);
 
 #endif /* __SOFT_TIM_H__ */

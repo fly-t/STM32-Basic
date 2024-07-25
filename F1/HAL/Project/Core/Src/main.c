@@ -91,15 +91,16 @@ int main(void)
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
     sys_init(72);
-    soft_timer_demo();  
-   
+      
+   soft_timer_demo();
+    
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
     while (1)
     {
-      
+        
 
     /* USER CODE END WHILE */
 

@@ -4,6 +4,9 @@
         "*.md": "markdown",
         "gpio.h": "c",
         "main.h": "c",
-        "soft_tim.h": "c"
+        "soft_tim.h": "c",
+        "typeinfo": "c",
+        "stdbool.h": "c",
+        "klist.h": "c"
     }
 }
