@@ -96,6 +96,8 @@ void software_timer_create(soft_timer_t timer, char *name, uint32_t period_ms, T
     timer->id = soft_tim.id_counter++;
 
     LINK_INIT(&(timer->self));
+    /* 创建后自动调用 */
+    software_timer_open(timer);
 }
 
 /**
@@ -127,13 +129,18 @@ void task_demo2(void)
 {
     HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);
 }
+void task_demo3(void)
+{
+    HAL_GPIO_TogglePin(LED_B_GPIO_Port, LED_B_Pin);
+}
 
 void soft_timer_demo(void)
 {
-    static struct soft_timer timer1, timer2;
+    static struct soft_timer timer1, timer2,timer3;
     soft_tim.create(&timer1, "Timer1", 100, task_demo);
     soft_tim.create(&timer2, "Timer2", 1000, task_demo2);
-    soft_tim.open(&timer1);
-    soft_tim.open(&timer2);
+    soft_tim.create(&timer3, "Timer3", 1500, task_demo3);
+    soft_tim.close(&timer2);
+    soft_tim.close(&timer3);
     soft_tim.start_hd();
 }
