@@ -24,7 +24,7 @@
 // 软件定时器链表头
 static KLIST_HEAD(soft_tim_llist);
 
-void software_timer_start(void);
+void software_timer_start_hd(void);
 void software_timer_create(soft_timer_t timer, char *name, uint32_t period_ms, TimerCallback callback);
 void software_timer_open(soft_timer_t timerx);
 void software_timer_close(soft_timer_t timerx);
@@ -35,7 +35,7 @@ struct Softim soft_tim = {
     .create = software_timer_create,
     .close = software_timer_close,
     .open = software_timer_open,
-    .start_hd = software_timer_start,
+    .start_hd = software_timer_start_hd,
 };
 
 /**
@@ -56,7 +56,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
  * @brief 打开硬件定时器中断,开始计时.
  * @return * void
  */
-void software_timer_start(void)
+void software_timer_start_hd(void)
 {
     HAL_TIM_Base_Start_IT(&USING_TIMERx);
 }
