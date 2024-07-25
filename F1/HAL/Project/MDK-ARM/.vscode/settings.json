@@ -3,6 +3,7 @@
         "*.qmd": "markdown",
         "*.md": "markdown",
         "gpio.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "soft_tim.h": "c"
     }
 }

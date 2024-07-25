@@ -1,6 +1,6 @@
 /**
  * @file sys.c
- * @brief 包含基础的系统组件
+ * @brief 基础的系统组件
  * @author Tengfei Zhang (izhangtengfei@163.com)
  * @version 1.0
  * @date 2024-07-06 09:57

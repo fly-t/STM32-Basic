@@ -9,6 +9,7 @@
                 "e:\\STM32-Basic\\F1\\HAL\\Project\\Drivers\\CMSIS\\Device\\ST\\STM32F1xx\\Include",
                 "e:\\STM32-Basic\\F1\\HAL\\Project\\Drivers\\CMSIS\\Include",
                 "e:\\STM32-Basic\\F1\\HAL\\Project\\System",
+                "e:\\STM32-Basic\\F1\\HAL\\Project\\Hardware",
                 "D:\\software\\Keil_v525\\ARM\\ARMCC\\include",
                 "D:\\software\\Keil_v525\\ARM\\ARMCC\\include\\rw",
                 "e:\\STM32-Basic\\F1\\HAL\\Project\\MDK-ARM",
