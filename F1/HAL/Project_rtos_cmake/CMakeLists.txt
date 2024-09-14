@@ -60,6 +60,30 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined symbols
 )
 
+# 定义一个函数，用于处理模块的源文件和头文件路径
+function(add_module module_name module_dir)
+    # 递归查找 module_dir 中的所有 .c 文件
+    file(GLOB_RECURSE ALL_C_FILES "${module_dir}/*.c")
+
+    # 设置头文件包含路径为 module_dir 目录
+    set(MODULE_INCLUDE_DIR "${module_dir}")
+
+    # 添加源文件到可执行文件
+    target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+        ${ALL_C_FILES}  # 添加 module_dir/src 中的 .c 文件
+    )
+
+    # 添加包含路径
+    target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+        ${MODULE_INCLUDE_DIR}  # 添加 module_dir/inc 目录为包含路径
+    )
+endfunction()
+
+# 添加 Device 模块
+add_module(Device "${CMAKE_SOURCE_DIR}/Device")
+
+
+
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
