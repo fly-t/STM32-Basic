@@ -9,7 +9,7 @@ Language: Cpp
 UseTab: Never
 IndentWidth: 4
 TabWidth: 4
-# ColumnLimit: 1000
+ColumnLimit: 80
 AccessModifierOffset: -4
 NamespaceIndentation: All
 FixNamespaceComments: false
@@ -38,3 +38,10 @@ AlignConsecutiveMacros: AcrossEmptyLines
 AlignConsecutiveAssignments: Consecutive
 
 # BracketAlignmentStyle: someLongFunction
+
+# 超过指定长度字符串的函数变量,换行对齐
+AlignAfterOpenBracket: DontAlign
+# false表示函数实参要么都在同一行，要么都各自一行
+BinPackArguments: true
+# false表示所有形参要么都在同一行，要么都各自一行
+BinPackParameters: true

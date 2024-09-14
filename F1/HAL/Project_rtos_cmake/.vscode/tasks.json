@@ -60,17 +60,55 @@
             "problemMatcher": [],
             "detail": "CMake template clean rebuild task"
         },
+        /* -------------------- 调用wsl命令行串口 ---------------------- */
+        {
+            "label": "Minicom:Bind & Attach USB Device with Admin",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Start-Process powershell -ArgumentList 'usbipd bind --busid 3-3; usbipd attach --wsl --busid 3-3' -Verb RunAs"
+            ],
+            "detail": "将USB绑定到 wsl",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Minicom:Start",
+            "type": "shell",
+            "command": "wsl",
+            "args": [
+                "-u",
+                "root",
+                "minicom",
+                "-b",
+                "115200",
+                "-D",
+                "/dev/ttyUSB0"
+            ],
+            "detail": "使用minicom",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
         {
             "type": "shell",
-            "label": "CubeProg: List all available communication interfaces",
-            "command": "STM32_Programmer_CLI",
-            "args": [
-                "--list"
+            "label": "Build + Flash + Minicom",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "CMake: clean rebuild",
+                "CubeProg: Flash project (SWD)",
+                "Minicom:Start"
             ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": []
-        }
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
     ]
 }

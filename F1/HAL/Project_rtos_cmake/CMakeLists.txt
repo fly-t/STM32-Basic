@@ -79,8 +79,13 @@ function(add_module module_name module_dir)
     )
 endfunction()
 
+
+# 添加 App 模块
+add_module(App "${CMAKE_SOURCE_DIR}/App")
 # 添加 Device 模块
 add_module(Device "${CMAKE_SOURCE_DIR}/Device")
+# 添加 bsp_uart 模块
+add_module(BSP::uart "${CMAKE_SOURCE_DIR}/Bsp/uart")
 
 
 
